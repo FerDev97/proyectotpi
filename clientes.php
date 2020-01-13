@@ -32,7 +32,7 @@
         <span class="glyphicon glyphicon-th"></span>
         <span>Clientes</span>
      </strong>
-       <a href="add_group.php" class="btn btn-info pull-right btn-sm"> Agregar cliente</a>
+       <a href="add_cliente.php" class="btn btn-info pull-right btn-sm"> Agregar cliente</a>
     </div>
      <div class="panel-body">
       <table id="tabla-clientes" class="table table-bordered" style="width:100%;">
