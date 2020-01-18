@@ -1,5 +1,5 @@
 <?php
-  $page_title = 'Lista de grupos';
+  $page_title = 'Lista de clientes';
   require_once('includes/load.php');
   require_once('includes/dbCon.php');
   // Checkin What level user has permission to view this page
@@ -51,7 +51,7 @@
                 $query = mysqli_query($dbCon, $sql) or die(mysqli_error($dbConn));
                 while ($grupo = mysqli_fetch_assoc($query)) {?>
           <tr>
-           <td class="text-center"><?php echo count_id();?></td>
+           <td class="text-center"><?php echo $grupo['id_cliente'];?></td>
            <td><?php echo remove_junk(ucwords($grupo['nombre']))?></td>
            <td><?php echo remove_junk(ucwords($grupo['direccion']))?></td>
            <td class="text-center">
@@ -66,12 +66,21 @@
            </td>
            <td class="text-center">
              <div class="btn-group">
-                <a href="edit_group.php?id=<?php echo (int)$grupo['id'];?>" class="btn btn-xs btn-warning" data-toggle="tooltip" title="Editar">
+                <a href="edit_cliente.php?id=<?php echo $grupo['id_cliente'];?>" class="btn btn-xs btn-warning" data-toggle="tooltip" title="Editar">
                   <i class="glyphicon glyphicon-pencil"></i>
                </a>
-                <a href="delete_group.php?id=<?php echo (int)$grupo['id'];?>" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Eliminar">
+                <?php if($grupo['estado'] === 'activo'): ?>
+           <a href="javascript:desactivar(<?php echo (int)$grupo['id_cliente'];?>)" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Desactivar">
                   <i class="glyphicon glyphicon-remove"></i>
                 </a>
+          <?php else: ?>
+           <a href="javascript:activar(<?php echo (int)$grupo['id_cliente'];?>)" class="btn btn-xs btn-success" data-toggle="tooltip" title="Activar">
+                  <i class="glyphicon glyphicon-check"></i>
+                </a>
+          <?php endif;?>
+
+
+                
                 </div>
            </td>
           </tr>
@@ -83,7 +92,34 @@
   </div>
 </div>
 <script>
-	
+	function desactivar(id){
+    $.ajax({
+        type: 'POST',
+        url: 'mantFunctions.php?_accion=desactivarCliente' + "&id_cliente="+id,
+        dataType: 'HTML',
+        beforeSend: function() {
+            alert("Desactivando cliente...");
+        },
+        success: function(res) {
+            alert(res);
+            document.location.href="clientes.php?resultado=exito";
+        }
+    });
+  }
+  function activar(id){
+    $.ajax({
+        type: 'POST',
+        url: 'mantFunctions.php?_accion=activarCliente' + "&id_cliente="+id,
+        dataType: 'HTML',
+        beforeSend: function() {
+            alert("Activando cliente...");
+        },
+        success: function(res) {
+            alert(res);
+            document.location.href="clientes.php?resultado=exito";
+        }
+    });
+  }
 $(document).ready(function() {
     $('#tabla-clientes').DataTable();
 } );
