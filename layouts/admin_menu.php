@@ -29,6 +29,13 @@
     
   </li>
   <li>
+    <a href="articulos.php">
+      <i class="glyphicon glyphicon-barcode"></i>
+      <span>Articulos</span>
+    </a>
+    
+  </li>
+  <li>
     <br>
   </li>
   <li>
